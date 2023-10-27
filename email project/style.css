@@ -1,0 +1,9 @@
+#preview {
+    border: solid 1px black;
+    min-height: 20px;
+    margin: 30px auto;
+    padding: 10px;
+  }
+  .mce-content-body {
+    background-color: #f0f0f0; /* Replace with your desired color */
+  }
