@@ -5,69 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-    <script>
-      tinymce.init({
-        setup: function(ed) {
-          ed.on('Paste Change input Undo Redo', updatePreview)
-        },
-        selector: "#mytextarea",
-        skin: "oxide-dark",
-        content_css: "modern",
-        plugins: ["code", "image", "anchor" , "pagebreak" , "wordcount", "searchreplace", "quickbars" ,"fullscreen" , "charmap", "preview",],
-        browser_spellcheck: true,
-      });
-
-      // const textarea = document.querySelector("textarea");
-      const preview = document.querySelector("#preview");
-      // textarea.addEventListener("input", updatePreview);
-
-      function updatePreview() {
-        let content = tinyMCE.activeEditor.getContent();
-        
-        const encoder = new TextEncoder(); 
-        const result = encoder.encode(content); 
-        var bytes = 0, kilobytes;
-        Object.keys(result).forEach(function(key) {
-            bytes += result[key]
-        });
-        kilobytes = bytes/1000
-        console.log(kilobytes + " kb");
-        console.log(bytes);
-        preview.innerHTML = content;
-        if (kilobytes > 102){
-          console.log("Storage limit");
-        }
-      }
-      // function copypaste(e) {
-      //    /* Get the text field */
-      //      e.clipboardData.setData("text/html", text);
-      //     /* Select the text field */
-      //     navigator.clipboard.writeText(text);
-
-      //     /* Copy the text inside the text field */
-      //     document.execCommand("copy");
-              
-          /* Use below command to access the 
-            value of copied text */
-      function copyToClip() {
-        let text = tinyMCE.activeEditor.getContent();
-        function listener(e) {
-          e.clipboardData.setData("text/html", text);
-          e.clipboardData.setData("text/plain", text);
-          e.preventDefault();
-        }
-        
-        document.addEventListener("copy", listener);
-        document.execCommand("copy");
-        document.removeEventListener("copy", listener);
-        
-      };
-    </script>
   </head>
 
   <body>
-    <textarea id="mytextarea">Hello, World! hi</textarea>
+    <h1>Email editor</h1>
+    <textarea id="default">Hello, World!</textarea>
+    <p>Output:</p>
     <div id="preview"></div>
-    <button onclick="copyToClip()"">Copy text</button>  
+    <button onclick="copyToClip()"">Copy text</button>
+    <script>
+      tinymce.init({
+            setup: function(ed) {
+                ed.on('Paste Change input Undo Redo', updatePreview)
+            },
+            selector: "textarea#default",
+            skin: "oxide-dark",
+            content_css: "modern",
+            plugins: ["code", "image", "anchor" , "pagebreak" , "wordcount", "searchreplace", "quickbars" ,"fullscreen" , "charmap", "preview",],
+            browser_spellcheck: true,
+            });
+
+            // const textarea = document.querySelector("textarea");
+            const preview = document.querySelector("#preview");
+            // textarea.addEventListener("input", updatePreview);
+
+            function updatePreview() {
+                let content = tinyMCE.activeEditor.getContent();
+                
+                const encoder = new TextEncoder(); 
+                const result = encoder.encode(content); 
+                var bytes = 0, kilobytes;
+                Object.keys(result).forEach(function(key) {
+                    bytes += result[key]
+                });
+                kilobytes = bytes/1000
+                console.log(kilobytes + " kb");
+                console.log(bytes);
+                preview.innerHTML = content;
+                if (kilobytes > 102){
+                    console.log("Storage limit");
+                }
+            }
+            // function copypaste(e) {
+            //    /* Get the text field */
+            //      e.clipboardData.setData("text/html", text);
+            //     /* Select the text field */
+            //     navigator.clipboard.writeText(text);
+
+            //     /* Copy the text inside the text field */
+            //     document.execCommand("copy");
+                    
+                /* Use below command to access the 
+                value of copied text */
+            function copyToClip() {
+                let text = tinyMCE.activeEditor.getContent();
+                function listener(e) {
+                    e.clipboardData.setData("text/html", text);
+                    e.clipboardData.setData("text/plain", text);
+                    e.preventDefault();
+                }
+                document.addEventListener("copy", listener);
+                document.execCommand("copy");
+                document.removeEventListener("copy", listener);
+            
+            };
+    </script>
   </body>
 </html>
